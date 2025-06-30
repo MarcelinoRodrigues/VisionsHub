@@ -12,7 +12,9 @@ builder.Services.AddDbContext<BaseContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); 
 
 builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<BookRepository, BookRepository>();
+builder.Services.AddScoped<StudentRepository, StudentRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

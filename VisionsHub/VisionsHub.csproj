@@ -27,7 +27,6 @@
   <ItemGroup>
     <Folder Include="Aplication\DTOs\Response\" />
     <Folder Include="Infra\Data\Context\" />
-    <Folder Include="Infra\Scripts\" />
   </ItemGroup>
 
 </Project>

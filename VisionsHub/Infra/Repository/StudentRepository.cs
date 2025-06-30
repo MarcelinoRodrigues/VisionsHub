@@ -15,5 +15,11 @@ namespace VisionsHub.Infra.Repository
         {
             return await _context.Student.FindAsync(studentId);
         }
+
+        public async Task CreateAsync(Student student)
+        {
+            _context.Student.Add(student);
+            await _context.SaveChangesAsync();
+        }
     }
 }
