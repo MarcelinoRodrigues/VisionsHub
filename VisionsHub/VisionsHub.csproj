@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="1 - Aplication\**" />
+    <Content Remove="1 - Aplication\**" />
+    <EmbeddedResource Remove="1 - Aplication\**" />
+    <None Remove="1 - Aplication\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.6" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
@@ -15,9 +23,10 @@
     <Folder Include="Aplication\DTOs\" />
     <Folder Include="Aplication\Interfaces\" />
     <Folder Include="Aplication\Services\" />
-    <Folder Include="Domain\Entities\" />
     <Folder Include="Infra\Data\Context\" />
     <Folder Include="Infra\Repository\" />
+    <Folder Include="Infra\Repository\" />
+    <Folder Include="API\" />
   </ItemGroup>
 
 </Project>
