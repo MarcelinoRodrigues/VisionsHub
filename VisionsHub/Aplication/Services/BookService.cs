@@ -15,7 +15,7 @@ namespace VisionsHub.Aplication.Services
         public BookService(BookRepository bookRepository)
         {
             _bookRepository = bookRepository;
-        }
+        }   
         public async Task Create(BookRequest request)
         {
             await _bookRepository.CreateAsync(request);

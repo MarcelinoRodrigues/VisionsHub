@@ -10,6 +10,6 @@ namespace VisionsHub.Domain.Entities
         public DateTime LoanDate { get; set; }
         public DateTime ExpectedReturnLoan { get; set; }
         public DateTime? ReturnLoan { get; set; }
-        public Status Status { get; set; }
+        public Statusload Status { get; set; }
     }
 }
