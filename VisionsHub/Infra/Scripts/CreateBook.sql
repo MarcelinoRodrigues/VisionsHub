@@ -1,0 +1,10 @@
+CREATE TABLE Book (
+    Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    Title NVARCHAR(200) NOT NULL,
+    Author NVARCHAR(150) NOT NULL,
+    ISBN NVARCHAR(20) UNIQUE NOT NULL,
+    YearOfPublication INT NOT NULL,
+    Category NVARCHAR(100),
+    TotalQuantity INT NOT NULL,
+    AvailableQuantity INT NOT NULL
+);
