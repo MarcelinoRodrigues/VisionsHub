@@ -7,8 +7,8 @@ namespace VisionsHub.Infra.Data.Context
     {
         public BaseContext(DbContextOptions<BaseContext> options) : base(options) { }
 
-        public DbSet<Book> Livros { get; set; }
-        public DbSet<Student> Alunos { get; set; }
-        public DbSet<Loan> Emprestimos { get; set; }
+        public DbSet<Book> Book { get; set; }
+        public DbSet<Student> Student { get; set; }
+        public DbSet<Loan> Loan { get; set; }
     }
 }

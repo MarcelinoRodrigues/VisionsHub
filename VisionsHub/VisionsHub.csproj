@@ -15,18 +15,17 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="API\" />
-    <Folder Include="Aplication\DTOs\" />
-    <Folder Include="Aplication\Interfaces\" />
-    <Folder Include="Aplication\Services\" />
+    <Folder Include="Aplication\DTOs\Response\" />
     <Folder Include="Infra\Data\Context\" />
-    <Folder Include="Infra\Repository\" />
-    <Folder Include="Infra\Repository\" />
-    <Folder Include="API\" />
   </ItemGroup>
 
 </Project>
