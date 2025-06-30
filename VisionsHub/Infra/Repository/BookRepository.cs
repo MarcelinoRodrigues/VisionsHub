@@ -20,14 +20,14 @@ namespace VisionsHub.Infra.Repository
         {
             var query = _context.Book.AsQueryable();
 
-            if (requestFilter?.Title != null)
-                query = query.Where(x => x.Title == requestFilter.Title);
+            if (!string.IsNullOrEmpty(requestFilter?.Title))
+                query = query.Where(x => x.Title.ToLower().Contains(requestFilter.Title.ToLower()));
 
-            if (requestFilter?.Author != null)
-                query = query.Where(x => x.Author == requestFilter.Author);
+            if (!string.IsNullOrEmpty(requestFilter?.Author))
+                query = query.Where(x => x.Author.ToLower().Contains(requestFilter.Author.ToLower()));
 
-            if (requestFilter?.ISBN != null)
-                query = query.Where(x => x.ISBN == requestFilter.ISBN);
+            if (!string.IsNullOrEmpty(requestFilter?.ISBN))
+                query = query.Where(x => x.ISBN.ToLower().Contains(requestFilter.ISBN.ToLower()));
 
             int page = requestFilter?.Page ?? 1;
             int pageSize = requestFilter?.PageSize ?? 10;
@@ -38,6 +38,7 @@ namespace VisionsHub.Infra.Repository
                 .OrderByDescending(x => x.AvailableQuantity)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
+                .Where(d => d.AvailableQuantity > 0)
                 .Select(x => new Book
                 {
                     Id = x.Id,

@@ -17,12 +17,9 @@ namespace VisionsHub.API
         }
 
         [HttpGet]
-        //- **Buscar livros** por título, autor ou ISBN
-        //- **Listar livros disponíveis** para empréstimo
         public async Task<IActionResult> GetProduct([FromQuery] BookFilter? request)
         {
             var books = await _service.GetBooks(request);
-
             return Ok(books);
         }
 

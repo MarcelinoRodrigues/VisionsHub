@@ -1,4 +1,5 @@
-﻿using VisionsHub.Aplication.DTOs;
+﻿using Microsoft.EntityFrameworkCore;
+using VisionsHub.Aplication.DTOs;
 using VisionsHub.Aplication.DTOs.Filters;
 using VisionsHub.Aplication.DTOs.Request;
 using VisionsHub.Aplication.Interfaces;
