@@ -194,5 +194,40 @@ namespace VisionsHub.Infra.Repository
                 HasNextPage = page * pageSize < totalItems
             };
         }
+
+        public async Task<PagedResponse<Loan>> GetLoanHistoryByPeriod(ReportFilter? filter)
+        {
+            var query = _context.Loan.AsQueryable();
+
+            query = query.Where(l =>
+                l.LoanDate >= filter!.StartDate &&
+                l.LoanDate <= filter.EndDate);
+
+            int page = filter?.Page ?? 1;
+            int pageSize = filter?.PageSize ?? 10;
+            var totalItems = await query.CountAsync();
+
+            var loans = await query
+                .OrderBy(l => l.LoanDate)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(x => new Loan
+                {
+                    Id = x.Id,
+                    StudentId = x.StudentId,
+                    BookId = x.BookId,
+                    LoanDate = x.LoanDate,
+                    ExpectedReturnLoan = x.ExpectedReturnLoan,
+                    ReturnLoan = x.ReturnLoan,
+                    Status = x.Status
+                })
+                .ToListAsync();
+
+            return new PagedResponse<Loan>
+            {
+                Items = loans,
+                HasNextPage = page * pageSize < totalItems
+            };
+        }
     }
 }

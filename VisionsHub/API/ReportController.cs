@@ -28,11 +28,11 @@ namespace VisionsHub.API
             return Ok(result);
         }
 
-        //[HttpGet("loan-history")]
-        //public async Task<IActionResult> GetLoanHistoryByPeriod([FromQuery] DateTime start, [FromQuery] DateTime end, [FromQuery] BaseFilter? filter)
-        //{
-        //    var result = await _service.GetLoanHistoryByPeriod(start, end, filter);
-        //    return Ok(result);
-        //}
+        [HttpGet("loan-history")]
+        public async Task<IActionResult> GetLoanHistoryByPeriod([FromQuery] ReportFilter filter)
+        {
+            var result = await _service.GetLoanHistoryByPeriod(filter);
+            return Ok(result);
+        }
     }
 }

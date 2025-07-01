@@ -26,5 +26,10 @@ namespace VisionsHub.Aplication.Services
 
             return report;
         }
+
+        public async Task<PagedResponse<Loan>> GetLoanHistoryByPeriod(ReportFilter filter)
+        {
+            return await _loanRepository.GetLoanHistoryByPeriod(filter);
+        }
     }
 }

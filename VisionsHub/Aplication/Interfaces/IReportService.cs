@@ -9,6 +9,6 @@ namespace VisionsHub.Aplication.Interfaces
     {
         Task<PagedResponse<ReportResponse>> GetMostBorrowedBooksReport(BaseFilter? filter);
         Task<PagedResponse<Loan>> GetStudentsWithOverdueLoans(BaseFilter? filter);
-        //Task<PagedResponse<Loan>> GetLoanHistoryByPeriod();
+        Task<PagedResponse<Loan>> GetLoanHistoryByPeriod(ReportFilter filter);
     }
 }
