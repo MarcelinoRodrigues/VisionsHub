@@ -1,7 +1,9 @@
 ﻿using Azure.Core;
+using VisionsHub.Aplication.DTOs;
 using VisionsHub.Aplication.DTOs.Filters;
 using VisionsHub.Aplication.DTOs.Request;
 using VisionsHub.Aplication.Interfaces;
+using VisionsHub.Domain.Entities;
 using VisionsHub.Domain.Enum;
 using VisionsHub.Infra.Repository;
 
@@ -13,9 +15,19 @@ namespace VisionsHub.Aplication.Services
         private readonly BookRepository _bookRepository;
         private readonly StudentRepository _studentRepository;
 
-        public LoanService(LoanRepository loanRepository)
+        public LoanService(LoanRepository loanRepository, BookRepository bookRepository, StudentRepository studentRepository)
         {
             _loanRepository = loanRepository;
+            _bookRepository = bookRepository;
+            _studentRepository = studentRepository;
+        }
+
+        public async Task<PagedResponse<Loan>> GetActiveLoad(LoadFilter? filter)
+        {
+            if (filter?.Email == null && filter?.Registration == null)
+                throw new Exception("informe pelo menos um dos campos do aluno");
+
+            return await _loanRepository.GetActiveLoad(filter);
         }
 
         public async Task Create(LoanRequest request) 

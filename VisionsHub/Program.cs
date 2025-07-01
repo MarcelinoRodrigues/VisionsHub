@@ -13,8 +13,10 @@ builder.Services.AddDbContext<BaseContext>(options =>
 
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<ILoanService, LoanService>();
 builder.Services.AddScoped<BookRepository, BookRepository>();
 builder.Services.AddScoped<StudentRepository, StudentRepository>();
+builder.Services.AddScoped<LoanRepository, LoanRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -1,8 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Drawing.Printing;
+using Microsoft.EntityFrameworkCore;
+using VisionsHub.Aplication.DTOs;
+using VisionsHub.Aplication.DTOs.Filters;
 using VisionsHub.Aplication.DTOs.Request;
 using VisionsHub.Domain.Entities;
 using VisionsHub.Domain.Enum;
 using VisionsHub.Infra.Data.Context;
+using static System.Reflection.Metadata.BlobBuilder;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace VisionsHub.Infra.Repository
 {
@@ -55,6 +60,57 @@ namespace VisionsHub.Infra.Repository
             return await _context.Loan
                 .Where(l => l.StudentId == studentId && l.ReturnLoan == null)
                 .CountAsync();
+        }
+        public async Task<PagedResponse<Loan>> GetActiveLoad(LoadFilter? filter)
+        {
+            var query = _context.Loan.AsQueryable();
+
+            if (!string.IsNullOrEmpty(filter?.Email))
+            {
+                query = query.Join(_context.Student,
+                                   loan => loan.StudentId,
+                                   student => student.Id,
+                                   (loan, student) => new { loan, student })
+                             .Where(x => x.student.Email == filter.Email)
+                             .Select(x => x.loan);
+            }
+
+            if (!string.IsNullOrEmpty(filter?.Registration))
+            {
+                query = query.Join(_context.Student,
+                                   loan => loan.StudentId,
+                                   student => student.Id,
+                                   (loan, student) => new { loan, student })
+                             .Where(x => x.student.Registration == filter.Registration)
+                             .Select(x => x.loan);
+            }
+
+            int page = filter?.Page ?? 1;
+            int pageSize = filter?.PageSize ?? 10;
+
+            var totalItems = await query.CountAsync();
+
+            var books = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Where(s => s.Status == Statusload.active)
+                .Select(x => new Loan
+                {
+                    Id = x.Id,
+                    StudentId = x.StudentId,
+                    BookId = x.BookId,
+                    LoanDate = x.LoanDate,
+                    ExpectedReturnLoan = x.ExpectedReturnLoan,
+                    ReturnLoan = x.ReturnLoan,
+                    Status = x.Status,
+                })
+                .ToListAsync();
+
+            return new PagedResponse<Loan>
+            {
+                Items = books,
+                HasNextPage = page * pageSize < totalItems
+            };
         }
     }
 }

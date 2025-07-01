@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VisionsHub.Aplication.DTOs.Filters;
 using VisionsHub.Aplication.DTOs.Request;
 using VisionsHub.Aplication.Interfaces;
 
@@ -12,6 +13,13 @@ namespace VisionsHub.API
         public LoanController(ILoanService service)
         {
             _service = service;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetActiveLoad([FromQuery] LoadFilter? filter)
+        {
+            var load = await _service.GetActiveLoad(filter);
+            return Ok(load);
         }
 
         [HttpPost("CreateLoan")]
