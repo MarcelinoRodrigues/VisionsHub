@@ -4,6 +4,8 @@ using VisionsHub.Aplication.DTOs.Response;
 using VisionsHub.Aplication.Interfaces;
 using VisionsHub.Domain.Entities;
 using VisionsHub.Infra.Repository;
+using static System.Reflection.Metadata.BlobBuilder;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace VisionsHub.Aplication.Services
 {
@@ -45,7 +47,25 @@ namespace VisionsHub.Aplication.Services
         {
             try
             {
-                return await _loanRepository.GetLoanHistoryByPeriod(filter);
+                var loans = await _loanRepository.GetLoans();
+
+                var filteredLoans = loans
+                  .Where(l => l.LoanDate >= filter.StartDate && l.LoanDate <= filter.EndDate)
+                  .ToList();
+
+                int page = filter?.Page ?? 1;
+                int pageSize = filter?.PageSize ?? 10;
+                var pagedBooks = filteredLoans
+                    .OrderBy(l => l.LoanDate)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                return new PagedResponse<Loan>
+                {
+                    Items = pagedBooks,
+                    HasNextPage = page * pageSize < loans.Count
+                };
             }
             catch (Exception)
             {
