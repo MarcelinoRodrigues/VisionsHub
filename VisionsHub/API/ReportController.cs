@@ -14,12 +14,12 @@ namespace VisionsHub.API
             _service = service;
         }
 
-        //[HttpGet("most-borrowed-books")]
-        //public async Task<IActionResult> GetMostBorrowedBooksReport()
-        //{
-        //    var result = await _service.GetMostBorrowedBooksReport();
-        //    return Ok(result);
-        //}
+        [HttpGet("most-borrowed-books")]
+        public async Task<IActionResult> GetMostBorrowedBooksReport([FromQuery] BaseFilter? filter)
+        {
+            var result = await _service.GetMostBorrowedBooksReport(filter);
+            return Ok(result);
+        }
 
         [HttpGet("students-with-overdue-loans")]
         public async Task<IActionResult> GetStudentsWithOverdueLoans([FromQuery] BaseFilter? filter)
@@ -27,5 +27,12 @@ namespace VisionsHub.API
             var result = await _service.GetStudentsWithOverdueLoans(filter);
             return Ok(result);
         }
+
+        //[HttpGet("loan-history")]
+        //public async Task<IActionResult> GetLoanHistoryByPeriod([FromQuery] DateTime start, [FromQuery] DateTime end, [FromQuery] BaseFilter? filter)
+        //{
+        //    var result = await _service.GetLoanHistoryByPeriod(start, end, filter);
+        //    return Ok(result);
+        //}
     }
 }

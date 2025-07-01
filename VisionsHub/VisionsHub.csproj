@@ -25,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Aplication\DTOs\Response\" />
     <Folder Include="Infra\Data\Context\" />
   </ItemGroup>
 
