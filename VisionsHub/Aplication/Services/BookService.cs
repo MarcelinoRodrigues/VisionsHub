@@ -42,14 +42,32 @@ namespace VisionsHub.Aplication.Services
 
         public async Task<PagedResponse<Book>> GetBooks(BookFilter? filter)
         {
-            try
+            var books = await _bookRepository.GetBooks();
+
+            if (!string.IsNullOrWhiteSpace(filter?.Title))
+                books = books.Where(b => b.Title.Contains(filter.Title, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            if (!string.IsNullOrWhiteSpace(filter?.Author))
+                books = books.Where(b => b.Author.Contains(filter.Author, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            if (!string.IsNullOrWhiteSpace(filter?.ISBN))
+                books = books.Where(b => b.ISBN.Contains(filter.ISBN, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            books = books.Where(b => b.AvailableQuantity > 0).ToList();
+
+            int page = filter?.Page ?? 1;
+            int pageSize = filter?.PageSize ?? 10;
+            var pagedBooks = books
+                .OrderByDescending(x => x.AvailableQuantity)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            return new PagedResponse<Book>
             {
-                return await _bookRepository.GetBookByFilter(filter);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+                Items = pagedBooks,
+                HasNextPage = page * pageSize < books.Count
+            };
         }
     }
 }

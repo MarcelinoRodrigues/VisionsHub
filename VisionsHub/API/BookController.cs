@@ -17,14 +17,14 @@ namespace VisionsHub.API
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProduct([FromQuery] BookFilter? request)
+        public async Task<IActionResult> GetBook([FromQuery] BookFilter? request)
         {
             var books = await _service.GetBooks(request);
             return Ok(books);
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateProduct([FromBody] BookRequest request)
+        public async Task<IActionResult> CreateBook([FromBody] BookRequest request)
         {
             await _service.Create(request);
             return Ok(new { mensagem = "Produto cadastrado com sucesso!" });
