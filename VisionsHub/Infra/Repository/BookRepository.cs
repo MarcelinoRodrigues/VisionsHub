@@ -81,5 +81,11 @@ namespace VisionsHub.Infra.Repository
             _context.Book.Add(book);
             await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateAsync(Book book)
+        {
+            _context.Book.Update(book);
+            await _context.SaveChangesAsync();
+        }
     }
 }

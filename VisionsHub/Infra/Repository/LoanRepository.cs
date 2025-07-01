@@ -25,9 +25,9 @@ namespace VisionsHub.Infra.Repository
                 Id = Guid.NewGuid(),
                 StudentId = request.StudentId,
                 BookId = request.BookId,
-                LoanDate = request.LoanDate,
-                ExpectedReturnLoan = request.ExpectedReturnLoan,
-                ReturnLoan = request.ReturnLoan,
+                LoanDate = DateTime.Now,
+                ExpectedReturnLoan = DateTime.Now.AddDays(14),
+                ReturnLoan = null,
                 Status = request.Status,
             };
 

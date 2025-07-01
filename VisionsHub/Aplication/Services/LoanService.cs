@@ -43,9 +43,10 @@ namespace VisionsHub.Aplication.Services
                 throw new Exception("Aluno já possui 3 empréstimos ativos.");
 
             if (book == null || book.AvailableQuantity == 0)
-            {
                 throw new Exception("sem exemplares disponíveis.");
-            }
+
+            book.AvailableQuantity -= 1;
+            await _bookRepository.UpdateAsync(book);
 
             await _loanRepository.CreateAsync(request);
         }
