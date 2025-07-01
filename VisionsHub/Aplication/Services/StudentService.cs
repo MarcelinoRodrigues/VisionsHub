@@ -14,7 +14,14 @@ namespace VisionsHub.Aplication.Services
         }
         public async Task Create(StudentRequest request)
         {
-            await _studentRepository.CreateAsync(request);
+            try
+            {
+                await _studentRepository.CreateAsync(request);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

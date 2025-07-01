@@ -17,19 +17,40 @@ namespace VisionsHub.Aplication.Services
         }
         public async Task<PagedResponse<Loan>> GetStudentsWithOverdueLoans(BaseFilter? filter)
         {
-            return await _loanRepository.GetOverdueLoansAsync(filter);
+            try
+            {
+                return await _loanRepository.GetOverdueLoansAsync(filter);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<PagedResponse<ReportResponse>> GetMostBorrowedBooksReport(BaseFilter? filter)
         {
-            var report = await _loanRepository.GetMostBorrowedBooksReport(filter);
+            try
+            {
+                var report = await _loanRepository.GetMostBorrowedBooksReport(filter);
 
-            return report;
+                return report;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<PagedResponse<Loan>> GetLoanHistoryByPeriod(ReportFilter filter)
         {
-            return await _loanRepository.GetLoanHistoryByPeriod(filter);
+            try
+            {
+                return await _loanRepository.GetLoanHistoryByPeriod(filter);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

@@ -24,41 +24,62 @@ namespace VisionsHub.Aplication.Services
 
         public async Task<PagedResponse<Loan>> GetActiveLoad(LoadFilter? filter)
         {
-            if (filter?.Email == null && filter?.Registration == null)
-                throw new Exception("informe pelo menos um dos campos do aluno");
+            try
+            {
+                if (filter?.Email == null && filter?.Registration == null)
+                    throw new Exception("informe pelo menos um dos campos do aluno");
 
-            return await _loanRepository.GetActiveLoad(filter);
+                return await _loanRepository.GetActiveLoad(filter); 
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task Create(LoanRequest request)
         {
-            var book = await _bookRepository.GetBookById(request.BookId);
-            var student = await _studentRepository.GetByIdAsync(request.StudentId);
-            var activeLoans = await _loanRepository.CountActiveLoansByStudent(request.StudentId);
-            var overdueLoans = await _loanRepository.GetOverdueLoansAsync(new BaseFilter { Page = 1, PageSize = 1 });
-            bool hasOverdue = overdueLoans.Items.Any(l => l.StudentId == request.StudentId);
+            try
+            {
+                var book = await _bookRepository.GetBookById(request.BookId);
+                var student = await _studentRepository.GetByIdAsync(request.StudentId);
+                var activeLoans = await _loanRepository.CountActiveLoansByStudent(request.StudentId);
+                var overdueLoans = await _loanRepository.GetOverdueLoansAsync(new BaseFilter { Page = 1, PageSize = 1 });
+                bool hasOverdue = overdueLoans.Items.Any(l => l.StudentId == request.StudentId);
 
-            if (hasOverdue)
-                throw new Exception("Aluno com empréstimos em atraso não pode pegar novos livros.");
+                if (hasOverdue)
+                    throw new Exception("Aluno com empréstimos em atraso não pode pegar novos livros.");
 
-            if (student == null || student.Status == Status.inactive)
-                throw new Exception("Aluno inativo não pode fazer empréstimos.");
+                if (student == null || student.Status == Status.inactive)
+                    throw new Exception("Aluno inativo não pode fazer empréstimos.");
 
-            if (activeLoans >= 3)
-                throw new Exception("Aluno já possui 3 empréstimos ativos.");
+                if (activeLoans >= 3)
+                    throw new Exception("Aluno já possui 3 empréstimos ativos.");
 
-            if (book == null || book.AvailableQuantity == 0)
-                throw new Exception("sem exemplares disponíveis.");
+                if (book == null || book.AvailableQuantity == 0)
+                    throw new Exception("sem exemplares disponíveis.");
 
-            book.AvailableQuantity -= 1;
-            await _bookRepository.UpdateAsync(book);
+                book.AvailableQuantity -= 1;
+                await _bookRepository.UpdateAsync(book);
 
-            await _loanRepository.CreateAsync(request);
+                await _loanRepository.CreateAsync(request);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<bool> ReturnLoan(Guid id)
         {
-            return await _loanRepository.ReturnLoan(id);
+            try
+            {
+                return await _loanRepository.ReturnLoan(id);    
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

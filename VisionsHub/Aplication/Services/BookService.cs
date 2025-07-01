@@ -18,12 +18,26 @@ namespace VisionsHub.Aplication.Services
         }   
         public async Task Create(BookRequest request)
         {
-            await _bookRepository.CreateAsync(request);
+            try
+            {
+                await _bookRepository.CreateAsync(request);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<PagedResponse<Book>> GetBooks(BookFilter? filter)
         {
-            return await _bookRepository.GetBookByFilter(filter);
+            try
+            {
+                return await _bookRepository.GetBookByFilter(filter);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
