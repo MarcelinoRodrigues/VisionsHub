@@ -30,19 +30,19 @@ namespace VisionsHub.Aplication.Services
             return await _loanRepository.GetActiveLoad(filter);
         }
 
-        public async Task Create(LoanRequest request) 
+        public async Task Create(LoanRequest request)
         {
-            var books = await _bookRepository.GetBookByFilter(null);
-
+            var book = await _bookRepository.GetBookById(request.BookId);
             var student = await _studentRepository.GetByIdAsync(request.StudentId);
+            var activeLoans = await _loanRepository.CountActiveLoansByStudent(request.StudentId);
+
             if (student == null || student.Status == Status.inactive)
                 throw new Exception("Aluno inativo não pode fazer empréstimos.");
 
-            var activeLoans = await _loanRepository.CountActiveLoansByStudent(request.StudentId);
             if (activeLoans >= 3)
                 throw new Exception("Aluno já possui 3 empréstimos ativos.");
 
-            if (books.Items.Count == 0)
+            if (book == null || book.AvailableQuantity == 0)
             {
                 throw new Exception("sem exemplares disponíveis.");
             }

@@ -1,13 +1,10 @@
-﻿using System.Drawing.Printing;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using VisionsHub.Aplication.DTOs;
 using VisionsHub.Aplication.DTOs.Filters;
 using VisionsHub.Aplication.DTOs.Request;
 using VisionsHub.Domain.Entities;
 using VisionsHub.Domain.Enum;
 using VisionsHub.Infra.Data.Context;
-using static System.Reflection.Metadata.BlobBuilder;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace VisionsHub.Infra.Repository
 {

@@ -59,6 +59,11 @@ namespace VisionsHub.Infra.Repository
             };
         }
 
+        public async Task<Book?> GetBookById(Guid id)
+        {
+            return await _context.Book.Where(x => x.Id == id).FirstOrDefaultAsync();
+        }
+
         public async Task CreateAsync(BookRequest request)
         {
             var book = new Book
