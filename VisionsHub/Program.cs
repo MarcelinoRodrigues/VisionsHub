@@ -14,6 +14,7 @@ builder.Services.AddDbContext<BaseContext>(options =>
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<ILoanService, LoanService>();
+builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<BookRepository, BookRepository>();
 builder.Services.AddScoped<StudentRepository, StudentRepository>();
 builder.Services.AddScoped<LoanRepository, LoanRepository>();
