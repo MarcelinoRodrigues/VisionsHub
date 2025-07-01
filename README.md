@@ -10,7 +10,7 @@ Funcionalidades Principais
 •	Aluno pode ter no máximo 3 empréstimos simultâneos
 •	Alunos inativos não podem realizar empréstimos
 •	Controle de disponibilidade de exemplares
-•	Relatórios:
+•	Relatórios
 •	Livros mais emprestados (com informações do primeiro, último e maior tomador de empréstimos)
 •	Listagem de alunos com empréstimos em atraso
 •	Histórico de empréstimos por período
@@ -21,7 +21,9 @@ Estrutura do Projeto
 •	VisionsHub.Infra: Repositórios e contexto de dados (Entity Framework Core)
 •	VisionsHub.Aplication: Serviços de aplicação, DTOs, interfaces e regras de negócio
 •	VisionsHub.API: Controllers e endpoints RESTful
+
 Tecnologias Utilizadas
+
 •	.NET 8
 •	Entity Framework Core
 •	ASP.NET Core Web API
@@ -36,7 +38,9 @@ git clone https://github.com/seu-usuario/visionshub.git
 No arquivo appsettings.json, ajuste a conexão com seu banco SQL Server.
 
 3.	Execute o projeto
+
 Exemplos de Endpoints
+
 •	GET /api/books — Lista livros
 •	POST /api/books — Cadastra livro
 •	POST /api/loans — Realiza empréstimo
@@ -54,5 +58,5 @@ Contribuição
 
 Licença
 Este projeto está sob a licença MIT.
+
 ---
-Se quiser personalizar mais algum detalhe, só avisar!
