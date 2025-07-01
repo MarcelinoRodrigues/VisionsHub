@@ -64,20 +64,8 @@ namespace VisionsHub.Infra.Repository
             return await _context.Book.Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task CreateAsync(BookRequest request)
+        public async Task CreateAsync(Book book)
         {
-            var book = new Book
-            {
-                Id = Guid.NewGuid(),
-                Title = request.Title,
-                Author = request.Author,
-                ISBN = request.ISBN,
-                YearOfPublication = request.YearOfPublication,
-                Category = request.Category,
-                TotalQuantity = request.TotalQuantity,
-                AvailableQuantity = request.AvailableQuantity
-            };
-
             _context.Book.Add(book);
             await _context.SaveChangesAsync();
         }

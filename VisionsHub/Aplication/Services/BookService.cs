@@ -20,7 +20,19 @@ namespace VisionsHub.Aplication.Services
         {
             try
             {
-                await _bookRepository.CreateAsync(request);
+                var book = new Book
+                {
+                    Id = Guid.NewGuid(),
+                    Title = request.Title,
+                    Author = request.Author,
+                    ISBN = request.ISBN,
+                    YearOfPublication = request.YearOfPublication,
+                    Category = request.Category,
+                    TotalQuantity = request.TotalQuantity,
+                    AvailableQuantity = request.AvailableQuantity
+                };
+
+                await _bookRepository.CreateAsync(book);
             }
             catch (Exception)
             {
