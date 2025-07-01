@@ -18,37 +18,28 @@ namespace VisionsHub.Infra.Repository
             _context = context;
         }
 
-        public async Task CreateAsync(LoanRequest request)
+        public async Task CreateAsync(Loan loan)
         {
-            var loan = new Loan
-            {
-                Id = Guid.NewGuid(),
-                StudentId = request.StudentId,
-                BookId = request.BookId,
-                LoanDate = DateTime.Now,
-                ExpectedReturnLoan = DateTime.Now.AddDays(14),
-                ReturnLoan = null,
-                Status = request.Status,
-            };
-
             _context.Loan.Add(loan);
             await _context.SaveChangesAsync();
         }
 
+        public async Task<Loan?> GetLoanById(Guid id)
+        {
+            var loans = await _context.Loan.FindAsync(id);
+
+            return loans ?? null;
+        }
+
+        public async Task<Book?> GetBookById(Guid id)
+        {
+            var book = await _context.Book.FindAsync(id);
+
+            return book ?? null;
+        }
+
         public async Task<bool> ReturnLoan(Guid id)
         {
-            var loan = await _context.Loan.FindAsync(id);
-
-            if (loan == null || loan.Status != Statusload.active)
-                return false;
-
-            loan.ReturnLoan = DateTime.Now;
-            loan.Status = Statusload.overdue;
-
-            var book = await _context.Book.FindAsync(loan.BookId);
-            if (book != null)
-                book.AvailableQuantity += 1;
-
             await _context.SaveChangesAsync();
             return true;
         }
@@ -59,6 +50,7 @@ namespace VisionsHub.Infra.Repository
                 .Where(l => l.StudentId == studentId && l.ReturnLoan == null)
                 .CountAsync();
         }
+
         public async Task<PagedResponse<Loan>> GetActiveLoad(LoadFilter? filter)
         {
             var query = _context.Loan.AsQueryable();

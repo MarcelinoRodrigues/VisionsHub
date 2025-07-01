@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore;
 using VisionsHub.Aplication.DTOs;
 using VisionsHub.Aplication.DTOs.Filters;
 using VisionsHub.Aplication.DTOs.Request;
@@ -62,7 +63,18 @@ namespace VisionsHub.Aplication.Services
                 book.AvailableQuantity -= 1;
                 await _bookRepository.UpdateAsync(book);
 
-                await _loanRepository.CreateAsync(request);
+                var loan = new Loan
+                {
+                    Id = Guid.NewGuid(),
+                    StudentId = request.StudentId,
+                    BookId = request.BookId,
+                    LoanDate = DateTime.Now,
+                    ExpectedReturnLoan = DateTime.Now.AddDays(14),
+                    ReturnLoan = null,
+                    Status = request.Status,
+                };
+
+                await _loanRepository.CreateAsync(loan);
             }
             catch (Exception)
             {
@@ -74,6 +86,19 @@ namespace VisionsHub.Aplication.Services
         {
             try
             {
+                var loan = await _loanRepository.GetLoanById(id);
+
+                if (loan == null || loan.Status != Statusload.active)
+                    return false;
+
+                loan.ReturnLoan = DateTime.Now;
+                loan.Status = Statusload.overdue;
+
+                var book = await _loanRepository.GetBookById(loan.BookId);
+
+                if (book != null)
+                    book.AvailableQuantity += 1;
+
                 return await _loanRepository.ReturnLoan(id);    
             }
             catch (Exception)
