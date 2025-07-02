@@ -65,8 +65,8 @@ namespace VisionsHub.Aplication.Services
                 var book = await _bookRepository.GetBookById(request.BookId);
                 var student = await _studentRepository.GetByIdAsync(request.StudentId);
                 var activeLoans = await _loanRepository.CountActiveLoansByStudent(request.StudentId);
-                var overdueLoans = await _loanRepository.GetOverdueLoansAsync(new BaseFilter { Page = 1, PageSize = 1 });
-                bool hasOverdue = overdueLoans.Items.Any(l => l.StudentId == request.StudentId);
+                var overdueLoans = await _loanRepository.GetOverdueLoansAsync();
+                bool hasOverdue = overdueLoans.Any(l => l.StudentId == request.StudentId);
 
                 if (hasOverdue)
                     throw new Exception("Aluno com empréstimos em atraso não pode pegar novos livros.");

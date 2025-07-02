@@ -58,37 +58,11 @@ namespace VisionsHub.Infra.Repository
                 .ToListAsync();
         }
 
-        public async Task<PagedResponse<Loan>> GetOverdueLoansAsync(BaseFilter? filter)
+        public async Task<List<Loan>> GetOverdueLoansAsync()
         {
-            var query = _context.Loan.AsQueryable();
-
-            query = query.Where(l => l.ExpectedReturnLoan < DateTime.Now && l.ReturnLoan == null);
-
-            int page = filter?.Page ?? 1;
-            int pageSize = filter?.PageSize ?? 10;
-
-            var totalItems = await query.CountAsync();
-
-            var loan = await query
-               .Skip((page - 1) * pageSize)
-               .Take(pageSize)
-               .Select(x => new Loan
-               {
-                   Id = x.Id,
-                   StudentId = x.StudentId,
-                   BookId = x.BookId,
-                   LoanDate = x.LoanDate,
-                   ExpectedReturnLoan = x.ExpectedReturnLoan,
-                   ReturnLoan = x.ReturnLoan,
-                   Status = x.Status
-               })
-               .ToListAsync();
-
-            return new PagedResponse<Loan>
-            {
-                Items = loan,
-                HasNextPage = page * pageSize < totalItems
-            };
+            return await _context.Loan
+                .Where(l => l.ExpectedReturnLoan < DateTime.Now && l.ReturnLoan == null)
+                .ToListAsync();
         }
 
         public async Task<PagedResponse<ReportResponse>> GetMostBorrowedBooksReport(BaseFilter? filter)

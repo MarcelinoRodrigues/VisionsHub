@@ -15,16 +15,23 @@ namespace VisionsHub.Aplication.Services
         {
             _loanRepository = loanRepository;
         }
+
         public async Task<PagedResponse<Loan>> GetStudentsWithOverdueLoans(BaseFilter? filter)
         {
-            try
+            var loans = await _loanRepository.GetOverdueLoansAsync();
+
+            int page = filter?.Page ?? 1;
+            int pageSize = filter?.PageSize ?? 10;
+            var paged = loans
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            return new PagedResponse<Loan>
             {
-                return await _loanRepository.GetOverdueLoansAsync(filter);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+                Items = paged,
+                HasNextPage = page * pageSize < loans.Count
+            };
         }
 
         public async Task<PagedResponse<ReportResponse>> GetMostBorrowedBooksReport(BaseFilter? filter)
