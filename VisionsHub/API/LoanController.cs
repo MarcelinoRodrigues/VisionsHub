@@ -16,10 +16,10 @@ namespace VisionsHub.API
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetActiveLoad([FromQuery] LoadFilter? filter)
+        public async Task<IActionResult> GetActiveLoan([FromQuery] LoanFilter? filter)
         {
-            var load = await _service.GetActiveLoad(filter);
-            return Ok(load);
+            var loan = await _service.GetActiveLoan(filter);
+            return Ok(loan);
         }
 
         [HttpPost("CreateLoan")]

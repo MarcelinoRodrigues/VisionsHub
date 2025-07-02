@@ -23,7 +23,7 @@ namespace VisionsHub.Aplication.Services
             _studentRepository = studentRepository;
         }
 
-        public async Task<PagedResponse<Loan>> GetActiveLoad(LoadFilter? filter)
+        public async Task<PagedResponse<Loan>> GetActiveLoan(LoanFilter? filter)
         {
             if (filter?.Email == null && filter?.Registration == null)
                 throw new Exception("informe pelo menos um dos campos do aluno");
@@ -108,11 +108,11 @@ namespace VisionsHub.Aplication.Services
             {
                 var loan = await _loanRepository.GetLoanById(id);
 
-                if (loan == null || loan.Status != Statusload.active)
+                if (loan == null || loan.Status != StatusLoan.active)
                     return false;
 
                 loan.ReturnLoan = DateTime.Now;
-                loan.Status = Statusload.overdue;
+                loan.Status = StatusLoan.overdue;
 
                 var book = await _loanRepository.GetBookById(loan.BookId);
 

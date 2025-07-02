@@ -1,6 +1,6 @@
 ﻿namespace VisionsHub.Domain.Enum
 {
-    public enum Statusload
+    public enum StatusLoan
     {
         active = 0,
         returned = 1,

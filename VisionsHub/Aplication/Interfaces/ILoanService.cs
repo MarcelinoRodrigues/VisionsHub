@@ -9,6 +9,6 @@ namespace VisionsHub.Aplication.Interfaces
     {
         Task Create(LoanRequest request);
         Task<bool> ReturnLoan(Guid id);
-        Task<PagedResponse<Loan>> GetActiveLoad(LoadFilter? filter);
+        Task<PagedResponse<Loan>> GetActiveLoan(LoanFilter? filter);
     }
 }

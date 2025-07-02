@@ -7,6 +7,6 @@ namespace VisionsHub.Aplication.DTOs.Request
     {
         public Guid StudentId { get; set; }
         public Guid BookId { get; set; }
-        public Statusload Status { get; set; }
+        public StatusLoan Status { get; set; }
     }
 }

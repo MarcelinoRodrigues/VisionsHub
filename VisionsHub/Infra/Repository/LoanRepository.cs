@@ -54,7 +54,7 @@ namespace VisionsHub.Infra.Repository
         public async Task<List<Loan>> GetActiveLoans()
         {
             return await _context.Loan
-                .Where(l => l.Status == Statusload.active)
+                .Where(l => l.Status == StatusLoan.active)
                 .ToListAsync();
         }
 

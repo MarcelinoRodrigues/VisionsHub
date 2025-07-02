@@ -28,6 +28,6 @@ namespace VisionsHub.Domain.Entities
         /// <summary>
         /// Status
         /// </summary>
-        public Statusload Status { get; set; }
+        public StatusLoan Status { get; set; }
     }
 }
