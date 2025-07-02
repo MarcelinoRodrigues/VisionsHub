@@ -31,13 +31,6 @@ namespace VisionsHub.Infra.Repository
             return loans ?? null;
         }
 
-        public async Task<Book?> GetBookById(Guid id)
-        {
-            var book = await _context.Book.FindAsync(id);
-
-            return book ?? null;
-        }
-
         public async Task<bool> ReturnLoan(Guid id)
         {
             await _context.SaveChangesAsync();

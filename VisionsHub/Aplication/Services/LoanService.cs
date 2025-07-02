@@ -114,7 +114,7 @@ namespace VisionsHub.Aplication.Services
                 loan.ReturnLoan = DateTime.Now;
                 loan.Status = StatusLoan.overdue;
 
-                var book = await _loanRepository.GetBookById(loan.BookId);
+                var book = await _bookRepository.GetBookById(loan.BookId);
 
                 if (book != null)
                     book.AvailableQuantity += 1;
