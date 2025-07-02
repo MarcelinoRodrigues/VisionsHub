@@ -4,8 +4,6 @@ using VisionsHub.Aplication.DTOs.Response;
 using VisionsHub.Aplication.Interfaces;
 using VisionsHub.Domain.Entities;
 using VisionsHub.Infra.Repository;
-using static System.Reflection.Metadata.BlobBuilder;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace VisionsHub.Aplication.Services
 {

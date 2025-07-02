@@ -25,17 +25,37 @@ namespace VisionsHub.Aplication.Services
 
         public async Task<PagedResponse<Loan>> GetActiveLoad(LoadFilter? filter)
         {
-            try
-            {
-                if (filter?.Email == null && filter?.Registration == null)
-                    throw new Exception("informe pelo menos um dos campos do aluno");
+            if (filter?.Email == null && filter?.Registration == null)
+                throw new Exception("informe pelo menos um dos campos do aluno");
 
-                return await _loanRepository.GetActiveLoad(filter); 
-            }
-            catch (Exception)
+            var loans = await _loanRepository.GetActiveLoans();
+
+            if (!string.IsNullOrEmpty(filter.Email))
             {
-                throw;
+                loans = loans.Where(l =>
+                    _studentRepository.GetByIdAsync(l.StudentId).Result?.Email == filter.Email
+                ).ToList();
             }
+
+            if (!string.IsNullOrEmpty(filter.Registration))
+            {
+                loans = loans.Where(l =>
+                    _studentRepository.GetByIdAsync(l.StudentId).Result?.Registration == filter.Registration
+                ).ToList();
+            }
+
+            int page = filter.Page;
+            int pageSize = filter.PageSize;
+            var paged = loans
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            return new PagedResponse<Loan>
+            {
+                Items = paged,
+                HasNextPage = page * pageSize < loans.Count
+            };
         }
 
         public async Task Create(LoanRequest request)

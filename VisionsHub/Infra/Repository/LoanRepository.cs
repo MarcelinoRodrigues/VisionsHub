@@ -51,56 +51,11 @@ namespace VisionsHub.Infra.Repository
                 .CountAsync();
         }
 
-        public async Task<PagedResponse<Loan>> GetActiveLoad(LoadFilter? filter)
+        public async Task<List<Loan>> GetActiveLoans()
         {
-            var query = _context.Loan.AsQueryable();
-
-            if (!string.IsNullOrEmpty(filter?.Email))
-            {
-                query = query.Join(_context.Student,
-                                   loan => loan.StudentId,
-                                   student => student.Id,
-                                   (loan, student) => new { loan, student })
-                             .Where(x => x.student.Email == filter.Email)
-                             .Select(x => x.loan);
-            }
-
-            if (!string.IsNullOrEmpty(filter?.Registration))
-            {
-                query = query.Join(_context.Student,
-                                   loan => loan.StudentId,
-                                   student => student.Id,
-                                   (loan, student) => new { loan, student })
-                             .Where(x => x.student.Registration == filter.Registration)
-                             .Select(x => x.loan);
-            }
-
-            int page = filter?.Page ?? 1;
-            int pageSize = filter?.PageSize ?? 10;
-
-            var totalItems = await query.CountAsync();
-
-            var books = await query
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .Where(s => s.Status == Statusload.active)
-                .Select(x => new Loan
-                {
-                    Id = x.Id,
-                    StudentId = x.StudentId,
-                    BookId = x.BookId,
-                    LoanDate = x.LoanDate,
-                    ExpectedReturnLoan = x.ExpectedReturnLoan,
-                    ReturnLoan = x.ReturnLoan,
-                    Status = x.Status,
-                })
+            return await _context.Loan
+                .Where(l => l.Status == Statusload.active)
                 .ToListAsync();
-
-            return new PagedResponse<Loan>
-            {
-                Items = books,
-                HasNextPage = page * pageSize < totalItems
-            };
         }
 
         public async Task<PagedResponse<Loan>> GetOverdueLoansAsync(BaseFilter? filter)

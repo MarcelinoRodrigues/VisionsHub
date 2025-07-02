@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VisionsHub.Aplication.DTOs;
-using VisionsHub.Aplication.DTOs.Filters;
-using VisionsHub.Aplication.DTOs.Request;
 using VisionsHub.Domain.Entities;
 using VisionsHub.Infra.Data.Context;
 
