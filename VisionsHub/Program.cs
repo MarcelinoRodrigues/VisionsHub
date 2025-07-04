@@ -1,9 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using VisionsHub.API.Extensions;
-using VisionsHub.Aplication.Interfaces;
-using VisionsHub.Aplication.Services;
 using VisionsHub.Infra.Data.Context;
-using VisionsHub.Infra.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,14 +10,6 @@ builder.Services.AddDbContext<BaseContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddApplicationServices();
-
-builder.Services.AddScoped<IBookService, BookService>();
-builder.Services.AddScoped<IStudentService, StudentService>();
-builder.Services.AddScoped<ILoanService, LoanService>();
-builder.Services.AddScoped<IReportService, ReportService>();
-builder.Services.AddScoped<BookRepository, BookRepository>();
-builder.Services.AddScoped<StudentRepository, StudentRepository>();
-builder.Services.AddScoped<LoanRepository, LoanRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
